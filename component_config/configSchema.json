@@ -1,0 +1,35 @@
+{
+  "type": "object",
+  "title": "configuration",
+  "required": [
+    "#api_token",
+    "org_id",
+    "project_type",
+    "aws_region"
+  ],
+  "properties": {
+    "#api_token": {
+      "type": "string",
+      "title": "API token",
+      "format": "password",
+      "propertyOrder": 200
+    },
+    "org_id": {
+      "type": "string",
+      "title": "Organization ID",
+      "propertyOrder": 300
+    },
+    "project_type": {
+      "type": "string",
+      "title": "Project type",
+      "propertyOrder": 400,
+      "default": "poc6months"
+    },
+    "aws_region": {
+      "type": "string",
+      "title": "AWS region",
+      "propertyOrder": 500,
+      "default": "us-east-1"
+    }
+  }
+}
