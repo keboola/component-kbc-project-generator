@@ -70,7 +70,7 @@ class Component(KBCEnvHandler):
                                             region=params[KEY_REGION], p_type=params[KEY_PROJECT_TYPE])
                 logging.info(f"Project ID {p['id']} created.")
                 logging.info(f"Inviting user {row['email']}")
-                self.invite_user_to_project(params[KEY_API_TOKEN], p['id'], row['email'])
+                self.invite_user_to_project(params[KEY_API_TOKEN], p['id'], row['email'], region=params[KEY_REGION])
                 writer.writerow({"email": row['email'],
                                  "project_id": p['id']})
 
