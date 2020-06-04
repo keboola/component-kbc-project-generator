@@ -108,7 +108,7 @@ class Component(KBCEnvHandler):
             "email": email
         }
         response = requests.post(
-            f'https://connection.{URL_SUFFIXES[region]}/manage/projects/' + str(project_id) + '/users',
+            f'https://connection{URL_SUFFIXES[region]}/manage/projects/' + str(project_id) + '/users',
             data=json.dumps(data),
             headers=headers)
 
