@@ -67,7 +67,7 @@ class Component(KBCEnvHandler):
             for row in reader:
                 logging.info(f"Generating project {row['name']}, for email {row['email']}")
                 p = self.create_new_project(params[KEY_API_TOKEN], row['name'], organisation=params[KEY_ORG_ID],
-                                            aws_region=params[KEY_REGION], p_type=params[KEY_PROJECT_TYPE])
+                                            region=params[KEY_REGION], p_type=params[KEY_PROJECT_TYPE])
                 logging.info(f"Project ID {p['id']} created.")
                 logging.info(f"Inviting user {row['email']}")
                 self.invite_user_to_project(params[KEY_API_TOKEN], p['id'], row['email'])
@@ -76,7 +76,7 @@ class Component(KBCEnvHandler):
 
             logging.info('Finished!')
 
-    def create_new_project(self, storage_token, name, organisation, p_type='poc6months', aws_region='us-east-1',
+    def create_new_project(self, storage_token, name, organisation, p_type='poc6months', region='EU',
                            defaultBackend='snowflake'):
         headers = {
             'Content-Type': 'application/json',
@@ -86,12 +86,11 @@ class Component(KBCEnvHandler):
         data = {
             "name": name,
             "type": p_type,
-            "defaultBackend": defaultBackend,
-            "region": aws_region
+            "defaultBackend": defaultBackend
         }
 
         response = requests.post(
-            'https://connection.keboola.com/manage/organizations/' + str(organisation) + '/projects',
+            f'https://connection{URL_SUFFIXES[region]}/manage/organizations/' + str(organisation) + '/projects',
             headers=headers, data=json.dumps(data))
         try:
             response.raise_for_status()
@@ -100,7 +99,7 @@ class Component(KBCEnvHandler):
         else:
             return response.json()
 
-    def invite_user_to_project(self, token, project_id, email):
+    def invite_user_to_project(self, token, project_id, email, region='US'):
         headers = {
             'Content-Type': 'text/plain',
             'X-KBC-ManageApiToken': token
@@ -108,9 +107,10 @@ class Component(KBCEnvHandler):
         data = {
             "email": email
         }
-        response = requests.post('https://connection.keboola.com/manage/projects/' + str(project_id) + '/users',
-                                 data=json.dumps(data),
-                                 headers=headers)
+        response = requests.post(
+            f'https://connection.{URL_SUFFIXES[region]}/manage/projects/' + str(project_id) + '/users',
+            data=json.dumps(data),
+            headers=headers)
 
         try:
             response.raise_for_status()

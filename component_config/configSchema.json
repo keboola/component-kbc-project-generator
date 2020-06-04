@@ -29,7 +29,7 @@
       "type": "string",
       "title": "AWS region",
       "propertyOrder": 500,
-      "default": "us-east-1"
+      "default": "US"
     }
   }
 }

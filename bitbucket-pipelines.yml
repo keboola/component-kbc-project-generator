@@ -1,5 +1,8 @@
 options:
   docker: true
+  caches:
+    - docker
+
 
 pipelines:
   default:
