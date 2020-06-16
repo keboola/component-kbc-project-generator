@@ -74,7 +74,8 @@ class Component(KBCEnvHandler):
                 writer.writerow({"email": row['email'],
                                  "project_id": p['id']})
 
-            logging.info('Finished!')
+        self.configuration.write_table_manifest(out_file_path, primary_key=["email"], incremental=True)
+        logging.info('Finished!')
 
     def create_new_project(self, storage_token, name, organisation, p_type='poc6months', region='EU',
                            defaultBackend='snowflake'):

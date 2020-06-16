@@ -1,5 +1,4 @@
-Generates projects of specified types for users defined in table: `users.csv` with cols (`["email","name"]`)
+Transfers configs into another projects specified in table: `configs.csv` with cols (`"project_id","config_id","component_id"`)
 
-Invites users.
 
 Outputs table `user_projects` (`["email", "project_id"]`)
