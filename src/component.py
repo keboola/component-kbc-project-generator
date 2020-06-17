@@ -66,14 +66,18 @@ class Component(KBCEnvHandler):
 
             for row in reader:
                 logging.info(f"Generating project {row['name']}, for email {row['email']}")
-                p = self.create_new_project(params[KEY_API_TOKEN], row['name'], organisation=params[KEY_ORG_ID],
-                                            region=params[KEY_REGION], p_type=params[KEY_PROJECT_TYPE])
-                logging.info(f"Project ID {p['id']} created.")
-                logging.info(f"Inviting user {row['email']}")
-                self.invite_user_to_project(params[KEY_API_TOKEN], p['id'], row['email'], region=params[KEY_REGION])
-                writer.writerow({"email": row['email'],
-                                 "project_id": p['id']})
-
+                try:
+                    p = self.create_new_project(params[KEY_API_TOKEN], row['name'], organisation=params[KEY_ORG_ID],
+                                                region=params[KEY_REGION], p_type=params[KEY_PROJECT_TYPE])
+                    logging.info(f"Project ID {p['id']} created.")
+                    writer.writerow({"email": row['email'],
+                                     "project_id": p['id']})
+                    logging.info(f"Inviting user {row['email']}")
+                    self.invite_user_to_project(params[KEY_API_TOKEN], p['id'], row['email'], region=params[KEY_REGION])
+                except Exception as e:
+                    logging.warning(f'Project creation failed: {e}')
+                    continue
+                
         self.configuration.write_table_manifest(out_file_path, primary_key=["email"], incremental=True)
         logging.info('Finished!')
 
