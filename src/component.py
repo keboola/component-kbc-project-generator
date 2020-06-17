@@ -77,7 +77,7 @@ class Component(KBCEnvHandler):
                 except Exception as e:
                     logging.warning(f'Project creation failed: {e}')
                     continue
-                
+
         self.configuration.write_table_manifest(out_file_path, primary_key=["email"], incremental=True)
         logging.info('Finished!')
 
