@@ -27,7 +27,8 @@ MANDATORY_IMAGE_PARS = []
 APP_VERSION = '0.0.1'
 
 URL_SUFFIXES = {"US": ".keboola.com",
-                "EU": ".eu-central-1.keboola.com"}
+                "EU": ".eu-central-1.keboola.com",
+                "AZURE-EU": ".north-europe.azure.keboola.com"}
 
 
 class Component(KBCEnvHandler):
