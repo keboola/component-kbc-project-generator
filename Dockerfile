@@ -2,7 +2,7 @@ FROM python:3.7.2-slim
 ENV PYTHONIOENCODING utf-8
 
 COPY src/ /code/src/
-COPY src/tests/ /code/tests/
+COPY /tests/ /code/tests/
 COPY flake8.cfg /code/flake8.cfg
 COPY requirements.txt /code/requirements.txt
 
