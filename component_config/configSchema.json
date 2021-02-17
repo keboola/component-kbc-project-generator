@@ -5,7 +5,8 @@
     "#api_token",
     "org_id",
     "project_type",
-    "aws_region"
+    "aws_region",
+    "mode"
   ],
   "properties": {
     "#api_token": {
@@ -30,6 +31,14 @@
       "title": "AWS region",
       "propertyOrder": 500,
       "default": "US"
+    },
+
+    "mode": {
+      "type": "string",
+      "title": "Mode",
+      "propertyOrder": 600,
+      "enum": ["CREATE", "INVITE"],
+      "default": "CREATE"
     }
   }
 }
