@@ -72,10 +72,11 @@ class Component(KBCEnvHandler):
             writer.writeheader()
 
             for row in reader:
-                logging.info(f"Generating project {row['name']}, for email {row['email']}")
+
                 try:
                     mode = params.get(KEY_MODE, 'CREATE')
                     if mode == 'CREATE':
+                        logging.info(f"Generating project {row['name']}, for email {row['email']}")
                         p = self._generate_project(row)
 
                     if mode == 'INVITE':
