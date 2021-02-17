@@ -118,8 +118,9 @@ class Component(KBCEnvHandler):
         for email in emails.split(';'):
             if '<' in email and '>' in email:
                 email = email[email.find("<") + 1:email.find(">")]
+
             if email:
-                self.invite_user_to_project(self.cfg_params[KEY_API_TOKEN], row['project_id'], email,
+                self.invite_user_to_project(self.cfg_params[KEY_API_TOKEN], row['project_id'], email.strip(),
                                             region=self.cfg_params[KEY_REGION])
             else:
                 logging.warning('Empty email!')
