@@ -78,6 +78,8 @@ class Component(KBCEnvHandler):
                     if mode == 'CREATE':
                         logging.info(f"Generating project {row['name']}, for email {row['email']}")
                         p = self._generate_project(row)
+                        row['project_id'] = p['id']
+                        self._invite_users_to_project(row)
 
                     if mode == 'INVITE':
                         p = self._invite_users_to_project(row)
