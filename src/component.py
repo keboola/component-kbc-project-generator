@@ -159,6 +159,8 @@ class Component(KBCEnvHandler):
         data = {
             "email": email
         }
+
+        logging.debug(f"Payload: {json.dumps(data)}")
         response = requests.post(
             f'https://connection{self.url_suffixes[region]}/manage/projects/' + str(project_id) + '/users',
             data=json.dumps(data),
