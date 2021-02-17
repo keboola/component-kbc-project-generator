@@ -68,7 +68,7 @@ class Component(KBCEnvHandler):
         with open(users_paths, mode='rt', encoding='utf-8') as in_file, open(out_file_path, mode='w+',
                                                                              encoding='utf-8') as out_file:
             reader = csv.DictReader(in_file, lineterminator='\n')
-            writer = csv.DictWriter(out_file, fieldnames=['email', 'project_id'], lineterminator='\n')
+            writer = csv.DictWriter(out_file, fieldnames=['email', 'project_id', 'features'], lineterminator='\n')
             writer.writeheader()
 
             for row in reader:

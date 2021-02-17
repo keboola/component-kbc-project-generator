@@ -9,12 +9,11 @@ The app works in two modes:
 Generates projects of specified types for users defined in table: `users.csv` 
 with columns:
 
-- `email` - user email who will be invited to the new project"
-- `name` - name of the project
+- `email` - user email who will be invited to the new project, or semicolon separated list of emails
+- `name` - name of the project (required for CREATE mode)
 - `features` - optional column. comma-separated list of project features
 - `storage_backend` - optional column. Id of the Storage backend
 - `project_id` - required when run in `INVITE` mode
-
 
 Invites users (using specified email).
 
