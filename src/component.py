@@ -14,6 +14,7 @@ import requests
 from kbc.env_handler import KBCEnvHandler
 
 # configuration variables
+DEFAULT_BACKEND = 'default_backend'
 KEY_API_TOKEN = '#api_token'
 KEY_ORG_ID = 'org_id'
 KEY_PROJECT_TYPE = 'project_type'
@@ -77,7 +78,7 @@ class Component(KBCEnvHandler):
                     mode = params.get(KEY_MODE, 'CREATE')
                     if mode == 'CREATE':
                         logging.info(f"Generating project {row['name']}, for email {row['email']}")
-                        p = self._generate_project(row)
+                        p = self._generate_project(row, default_backend=params.get(DEFAULT_BACKEND, 'snowflake'))
                         row['project_id'] = p['id']
                         self._invite_users_to_project(row)
 
@@ -95,10 +96,11 @@ class Component(KBCEnvHandler):
         self.configuration.write_table_manifest(out_file_path, primary_key=["email"], incremental=True)
         logging.info('Finished!')
 
-    def _generate_project(self, row: dict):
+    def _generate_project(self, row: dict, default_backend='snowflake'):
         p = self.create_new_project(self.cfg_params[KEY_API_TOKEN], row['name'],
                                     organisation=self.cfg_params[KEY_ORG_ID],
-                                    region=self.cfg_params[KEY_REGION], p_type=self.cfg_params[KEY_PROJECT_TYPE])
+                                    region=self.cfg_params[KEY_REGION], p_type=self.cfg_params[KEY_PROJECT_TYPE],
+                                    defaultBackend=default_backend)
         logging.info(f"Project ID {p['id']} created.")
 
         if row.get('features', []):
