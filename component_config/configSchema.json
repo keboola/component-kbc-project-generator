@@ -6,7 +6,8 @@
     "org_id",
     "project_type",
     "aws_region",
-    "mode"
+    "mode",
+    "default_backend"
   ],
   "properties": {
     "#api_token": {
@@ -39,6 +40,12 @@
       "propertyOrder": 600,
       "enum": ["CREATE", "INVITE"],
       "default": "CREATE"
+    },
+    "default_backend": {
+      "type": "string",
+      "title": "Default backend",
+      "propertyOrder": 650,
+      "default": "snowflake"
     }
   }
 }
