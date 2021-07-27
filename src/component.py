@@ -82,12 +82,12 @@ class Component(KBCEnvHandler):
                         logging.info(f"Generating project {row['name']}, for email {row['email']}")
                         p = self._generate_project(row, default_backend=params.get(DEFAULT_BACKEND, 'snowflake'))
                         row['project_id'] = p['id']
-                        self._invite_users_to_project(row)
                 except Exception as e:
                     logging.warning(f'Project creation failed: {e}')
                     continue
 
                 try:
+                    self._invite_users_to_project(row)
                     if mode == 'INVITE':
                         p = self._invite_users_to_project(row)
 
