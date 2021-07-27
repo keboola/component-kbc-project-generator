@@ -51,7 +51,8 @@ class Component(KBCEnvHandler):
         # default
         self.url_suffixes = {"US": ".keboola.com",
                              "EU": ".eu-central-1.keboola.com",
-                             "AZURE-EU": ".north-europe.azure.keboola.com"}
+                             "AZURE-EU": ".north-europe.azure.keboola.com",
+                             "INNOGY": ".innogy.keboola.cloud"}
 
         self.url_suffixes = {**self.url_suffixes, **self.image_params}
 
@@ -69,7 +70,8 @@ class Component(KBCEnvHandler):
         with open(users_paths, mode='rt', encoding='utf-8') as in_file, open(out_file_path, mode='w+',
                                                                              encoding='utf-8') as out_file:
             reader = csv.DictReader(in_file, lineterminator='\n')
-            writer = csv.DictWriter(out_file, fieldnames=['email', 'project_id', 'features'], lineterminator='\n')
+            writer = csv.DictWriter(out_file, fieldnames=['email', 'project_id', 'features', 'user_invited'],
+                                    lineterminator='\n')
             writer.writeheader()
 
             for row in reader:
@@ -81,15 +83,25 @@ class Component(KBCEnvHandler):
                         p = self._generate_project(row, default_backend=params.get(DEFAULT_BACKEND, 'snowflake'))
                         row['project_id'] = p['id']
                         self._invite_users_to_project(row)
+                except Exception as e:
+                    logging.warning(f'Project creation failed: {e}')
+                    continue
 
+                try:
                     if mode == 'INVITE':
                         p = self._invite_users_to_project(row)
 
                     # log
                     writer.writerow({"email": row['email'],
                                      "project_id": p['id'],
-                                     "features": row.get('features', [])})
+                                     "features": row.get('features', []),
+                                     "user_invited": True})
                 except Exception as e:
+                    # log
+                    writer.writerow({"email": row['email'],
+                                     "project_id": p['id'],
+                                     "features": row.get('features', []),
+                                     "user_invited": False})
                     logging.warning(f'Project creation failed: {e}')
                     continue
 
@@ -204,7 +216,7 @@ class Component(KBCEnvHandler):
 
     def assign_storage_backend_to_project(self, token: str, project_id: str, backend_id: int, region):
         headers = {
-            'Content-Type': 'text/plain',
+            'Content-Type': 'application/json',
             'X-KBC-ManageApiToken': token
         }
         data = {
