@@ -102,7 +102,7 @@ class Component(KBCEnvHandler):
                                      "project_id": p['id'],
                                      "features": row.get('features', []),
                                      "user_invited": False})
-                    logging.warning(f'Project creation failed: {e}')
+                    logging.warning(f'Project invitation failed: {e}')
                     continue
 
         self.configuration.write_table_manifest(out_file_path, primary_key=["email"], incremental=True)
