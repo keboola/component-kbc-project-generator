@@ -84,6 +84,11 @@ class Component(KBCEnvHandler):
                         row['project_id'] = p['id']
                 except Exception as e:
                     logging.warning(f'Project creation failed: {e}')
+                    # log
+                    writer.writerow({"email": row['email'],
+                                     "project_id": None,
+                                     "features": row.get('features', []),
+                                     "user_invited": False})
                     continue
 
                 try:
