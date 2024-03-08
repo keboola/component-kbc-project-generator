@@ -7,11 +7,10 @@ import csv
 import json
 import logging
 import os
-import sys
-from typing import List
-
 import requests
+import sys
 from kbc.env_handler import KBCEnvHandler
+from typing import List
 
 # configuration variables
 DEFAULT_BACKEND = 'default_backend'
@@ -70,7 +69,8 @@ class Component(KBCEnvHandler):
         with open(users_paths, mode='rt', encoding='utf-8') as in_file, open(out_file_path, mode='w+',
                                                                              encoding='utf-8') as out_file:
             reader = csv.DictReader(in_file, lineterminator='\n')
-            writer = csv.DictWriter(out_file, fieldnames=['email', 'project_id', 'features', 'user_invited', 'project_active'],
+            writer = csv.DictWriter(out_file,
+                                    fieldnames=['email', 'project_id', 'features', 'user_invited', 'project_active'],
                                     lineterminator='\n')
             writer.writeheader()
 
