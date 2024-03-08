@@ -70,7 +70,7 @@ class Component(KBCEnvHandler):
         with open(users_paths, mode='rt', encoding='utf-8') as in_file, open(out_file_path, mode='w+',
                                                                              encoding='utf-8') as out_file:
             reader = csv.DictReader(in_file, lineterminator='\n')
-            writer = csv.DictWriter(out_file, fieldnames=['email', 'project_id', 'features', 'user_invited'],
+            writer = csv.DictWriter(out_file, fieldnames=['email', 'project_id', 'features', 'user_invited', 'project_active'],
                                     lineterminator='\n')
             writer.writeheader()
 
@@ -88,7 +88,8 @@ class Component(KBCEnvHandler):
                     writer.writerow({"email": row['email'],
                                      "project_id": None,
                                      "features": row.get('features', []),
-                                     "user_invited": False})
+                                     "user_invited": False,
+                                     "project_active": True})
                     continue
 
                 try:
@@ -100,13 +101,15 @@ class Component(KBCEnvHandler):
                     writer.writerow({"email": row['email'],
                                      "project_id": p['id'],
                                      "features": row.get('features', []),
-                                     "user_invited": True})
+                                     "user_invited": True,
+                                     "project_active": True})
                 except Exception as e:
                     # log
                     writer.writerow({"email": row['email'],
                                      "project_id": p['id'],
                                      "features": row.get('features', []),
-                                     "user_invited": False})
+                                     "user_invited": False,
+                                     "project_active": True})
                     logging.warning(f'Project invitation failed: {e}')
                     continue
 
